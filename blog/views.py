@@ -3,7 +3,7 @@ from django.shortcuts import render
 from.forms import CommentForm
 from django.http import HttpResponseRedirect
 from.models import Post
-from django.db.models import Q
+from django.db.models import Q, query
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -55,3 +55,24 @@ def blog_details (request, slug):
     }
 
     return render (request,'blog/details.html',context)
+
+def search_blog(request):
+    queryset = Post.objects.all()
+    query = request.GET.get('q')
+    
+    paginator = Paginator(queryset, 1)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    if query:
+        queryset=queryset.filter(
+            Q(title__icontains=query) | Q(short_description__icontains=query) |
+            Q(description__icontains=query)
+
+        ).distinct()
+    context = {
+        "queryset":queryset,
+        'query':query
+
+    }
+    return render(request,'blog/search.html', context)
