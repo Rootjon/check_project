@@ -190,7 +190,15 @@
             </div>
           </div>
           -->
+          <a href="{% url 'blog:blog_list' %}">
+          <h2> All</h2>
+        </a>
 
+          {% for category in categories %}
+          <a href="{{category.get_absolute_url}} ">
+            <h3>{{ category.name }} </h3>
+          </a>
+          {% endfor %}
           <!-- Search Section -->
 <div class="bg-navy">
   <div class="bg-img-hero-center" style="background-image: url({% static "blueberry/assets/svg/components/abstract-shapes-19.svg" %});">
@@ -221,7 +229,6 @@
          
             {% for post in page_obj %}
               
-            
           <!-- End Blog Card -->
           <article class="card mb-3 mb-sm-5">
             <img
@@ -231,6 +238,8 @@
             />
 
             <div class="card-body">
+
+              <h3>{{ post.category.name }} </h3>
               
               <h3>
                 <a class="text-inherit" href="{{ post.get_absolute_url }}"

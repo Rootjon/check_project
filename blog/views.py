@@ -1,8 +1,8 @@
+from django.shortcuts import render,get_object_or_404
 from django.core import paginator
-from django.shortcuts import render
 from.forms import CommentForm
 from django.http import HttpResponseRedirect
-from.models import Post
+from.models import Post, Category
 from django.db.models import Q, query
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -10,15 +10,25 @@ from django.shortcuts import redirect
 
 # Create your views here.
 
-def blog_list (request):
+def blog_list (request, category_slug=None):
+    category = None
+    categories = Category.objects.all()
     posts = Post.objects.all()
     paginator=Paginator(posts,1)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        posts = posts.filter(category=category)
 
+        paginator=Paginator(posts,1)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
 
     context={
         'posts':posts,
+        'category': category,
+        'categories': categories,
         'page_obj':page_obj
 
 
