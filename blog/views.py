@@ -125,11 +125,3 @@ def category (request, category_slug=None):
     }
 
     return render (request,'blog/category.html',context)
-def new ( request):
-    post = Post.objects.all
-
-    context ={
-        'post':post
-    }
-
-    return render(request, 'blog/new.html',context)
