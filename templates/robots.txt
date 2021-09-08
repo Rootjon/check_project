@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: {{request.scheme}}://{{request.META.HTTP_HOST}}/sitemap.xml
