@@ -19,21 +19,24 @@ from django.conf.urls import url
 from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.sitemaps.views import sitemap
 
 
+'''
 from blog.sitemaps import StaticViewSitemap,BlogpostSitemap
+from django.contrib.sitemaps.views import sitemap
 
 sitemaps = {
     'static':StaticViewSitemap,
     'blogpost':BlogpostSitemap,
 }
+'''
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path ('',include('blog.urls',namespace='blog')),
-    path("sitemap.xml", sitemap, {'sitemaps':sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-    path("robots.txt", TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
+    #path("sitemap.xml", sitemap, {'sitemaps':sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path("robots.txt/", TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
+    path("sitemap.xml", TemplateView.as_view(template_name='sitemap.xml', content_type='text/plain')),
     path('summernote/', include('django_summernote.urls'))
 ]
    
